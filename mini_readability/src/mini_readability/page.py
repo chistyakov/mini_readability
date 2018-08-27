@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from textwrap import fill
 from typing import List, Union
 
 
@@ -17,12 +18,19 @@ class LineBreak:
         return "\n"
 
 
+MAX_PAGE_ITEM_WIDTH = 80
+
+
 @dataclass
 class PageItem:
     parts: List[Union[str, Link, LineBreak]]
 
     def __str__(self) -> str:
-        return "".join(str(p) for p in self.parts if p)
+        return fill(
+            "".join(str(p) for p in self.parts if p),
+            MAX_PAGE_ITEM_WIDTH,
+            replace_whitespace=False,
+        )
 
 
 class Paragraph(PageItem):
