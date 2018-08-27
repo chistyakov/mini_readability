@@ -3,7 +3,6 @@ from urllib.parse import urlparse
 
 import requests
 
-from mini_readability.page import Page
 from mini_readability.parse import parse
 
 
@@ -22,12 +21,7 @@ def fetch(url: str) -> str:
 
 def minify(page_source: str) -> str:
     page = parse(page_source)
-    return format_(page)
-
-
-# TODO: maybe move to Page.__str__
-def format_(page: Page) -> str:
-    return ""
+    return str(page)
 
 
 def result_filename(url: str) -> str:

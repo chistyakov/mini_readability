@@ -1,6 +1,6 @@
 import pytest
 
-from mini_readability.page import Page, Paragraph, Header, Link
+from mini_readability.page import Page, Paragraph, Header, Link, LineBreak
 from mini_readability.parse import parse
 
 
@@ -71,8 +71,7 @@ from mini_readability.parse import parse
                     Paragraph(
                         parts=[
                             "Start ",
-                            Link(href="http://example.com"),
-                            "link",
+                            Link(text="link", href="http://example.com"),
                             " end.",
                         ]
                     )
@@ -97,8 +96,7 @@ from mini_readability.parse import parse
                     Paragraph(
                         parts=[
                             "Start ",
-                            Link(href="http://example.com"),
-                            "link",
+                            Link(text="link", href="http://example.com"),
                             " end.",
                         ]
                     ),
@@ -115,7 +113,7 @@ from mini_readability.parse import parse
             "<div><p>Foo<br>Bar</p></div>"
             "</body>"
             "</html>",
-            Page(title="Title", items=[Paragraph(parts=["Foo", "\n", "Bar"])]),
+            Page(title="Title", items=[Paragraph(parts=["Foo", LineBreak(), "Bar"])]),
         ),
     ],
 )
