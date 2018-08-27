@@ -1,6 +1,12 @@
+#!/usr/bin/env python3
+
+
 import argparse
 import logging
 from argparse import Namespace
+
+from mini_readability.minify import save_mini_readable
+
 
 def main() -> None:
     logging.basicConfig(
@@ -8,13 +14,11 @@ def main() -> None:
         format="%(asctime)s:%(processName)s[%(process)d]:%(name)s:%(levelname)s %(message)s",
     )
     args = parse_arguments()
-    print(args.url)
+    save_mini_readable(args.url)
 
 
 def parse_arguments() -> Namespace:
-    parser = argparse.ArgumentParser(
-        description="Extract mini readable data by URL."
-    )
+    parser = argparse.ArgumentParser(description="Extract mini readable data by URL.")
     parser.add_argument("url", help="page URL")
     return parser.parse_args()
 
