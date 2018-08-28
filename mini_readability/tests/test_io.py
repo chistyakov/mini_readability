@@ -2,20 +2,31 @@ from unittest import mock
 
 import pytest
 
-from mini_readability.io import result_filename, get_domain
+from mini_readability.io import build_path, get_domain
 
 
 @pytest.mark.parametrize(
-    "url,expected_filename",
+    "url,expected_path",
     [
-        ("http://lenta.ru/news/2013/03/dtp/index.html", "/data/index.txt"),
-        # TODO: unique name to prevent overriding of results
-        ("https://lenta.ru/articles/2018/08/23/roditeli_cet/", "/data/no_name.txt"),
+        (
+            "https://lenta.ru/articles/2018/08/23/roditeli_cet/",
+            (
+                "/data/lenta.ru/articles/2018/08/23/roditeli_cet",
+                "/data/lenta.ru/articles/2018/08/23/roditeli_cet/no_name.txt",
+            ),
+        ),
+        (
+            "http://lenta.ru/news/2013/03/dtp/index.html",
+            (
+                "/data/lenta.ru/news/2013/03/dtp",
+                "/data/lenta.ru/news/2013/03/dtp/index.txt",
+            ),
+        ),
     ],
 )
 @mock.patch.dict("os.environ", {"OUTPUT_BASE_PATH": "/data"})
-def test_result_filename(url, expected_filename):
-    assert expected_filename == result_filename(url)
+def test_build_path(url, expected_path):
+    assert expected_path == build_path(url)
 
 
 @pytest.mark.parametrize(

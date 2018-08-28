@@ -1,5 +1,6 @@
 import os
 from logging import getLogger
+from typing import Tuple
 from urllib.parse import urlparse
 
 import requests
@@ -10,7 +11,6 @@ def fetch(url: str) -> str:
     resp = requests.get(url)
     resp.raise_for_status()
     getLogger(__name__).info("Successfully fetched %s", url)
-    getLogger(__name__).info("%s", resp.encoding)
     return resp.text
 
 
@@ -20,18 +20,29 @@ def get_domain(url: str) -> str:
 
 
 def save(data: str, url: str):
-    filepath = result_filename(url)
-    with open(filepath, "w") as f:
-        getLogger(__name__).info("write to %s", filepath)
+    dir_path, file_path = build_path(url)
+    os.makedirs(dir_path, exist_ok=True)
+    with open(file_path, "w") as f:
+        getLogger(__name__).info("write to %s", file_path)
         f.write(data)
 
 
-def result_filename(url: str) -> str:
+def build_path(url: str) -> Tuple[str, str]:
     base_path = os.environ["OUTPUT_BASE_PATH"]
     parts = urlparse(url)
-    path = parts.path
-    page_name = path.rsplit("/", 1)[-1]
-    if not page_name:
-        return os.path.join(base_path, "no_name.txt")
-    file_name = page_name.rsplit(".", 1)[0]
-    return os.path.join(base_path, f"{file_name}.txt")
+    rel_path, filename = split_path(parts.path)
+    dir_path = join_parts(base_path, parts.netloc, rel_path)
+    file_path = join_parts(dir_path, filename)
+    return dir_path, file_path
+
+
+def split_path(path: str) -> Tuple[str, str]:
+    left_path, _, right_path = path.rpartition("/")
+    if not right_path:
+        return left_path, "no_name.txt"
+    no_ext = right_path.rsplit(".", 1)[0]
+    return left_path, f"{no_ext}.txt"
+
+
+def join_parts(*parts) -> str:
+    return "/" + "/".join(p.strip("/") for p in parts)
