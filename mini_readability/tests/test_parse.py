@@ -3,7 +3,7 @@ from unittest import mock
 
 import pytest
 
-from mini_readability.page import Page, Paragraph, Header, Link, LineBreak
+from mini_readability.primitives import Page, Paragraph, Header, Link, LineBreak
 from mini_readability.parse import parse
 
 

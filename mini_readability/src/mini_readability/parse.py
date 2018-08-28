@@ -5,7 +5,7 @@ from lxml.html import document_fromstring
 from lxml.html.clean import clean_html
 
 from mini_readability.config import get_config
-from mini_readability.page import Page, PageItem, Header, Paragraph, Link, LineBreak
+from mini_readability.primitives import Page, PageItem, Header, Paragraph, Link, LineBreak
 
 
 def parse(page_source: str, domain: str) -> Page:
