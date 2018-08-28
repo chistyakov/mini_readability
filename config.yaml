@@ -1,0 +1,6 @@
+default:
+  xpath: ".//*[self::p or self::h1 or self::h2 or self::h3]"
+lenta.ru:
+  xpath: ".//*[self::p or self::h1]"
+gazeta.ru:
+  xpath: './/*[(self::p or self::h1 or self::h2) and not(ancestor::div[@class="bottom_info"]) and not(ancestor::div[@id="publications_by"]) and not(ancestor::div[@class="m_rub"])]'

@@ -4,28 +4,35 @@ from lxml.etree import Element
 from lxml.html import document_fromstring
 from lxml.html.clean import clean_html
 
+from mini_readability.config import get_config
 from mini_readability.page import Page, PageItem, Header, Paragraph, Link, LineBreak
 
 
-def parse(page_source: str) -> Page:
+def parse(page_source: str, domain: str) -> Page:
     html = document_fromstring(page_source)
-    return Page(title=get_title(html), items=list(get_items(html)))
+    return Page(title=get_title(html), items=list(get_items(html, domain)))
 
 
 title_xpath = ".//title"
 
 
 def get_title(html: Element) -> str:
-    return html.findtext(title_xpath)
+    return html.findtext(title_xpath).strip()
 
 
-valuable_data_xpath = ".//*[self::p or self::h1 or self::h2 or self::h3]"
-
-
-def get_items(html: Element) -> Iterable[PageItem]:
+def get_items(html: Element, domain: str) -> Iterable[PageItem]:
     html = clean_html(html)
-    for element in html.xpath(valuable_data_xpath):
+    xpath = get_xpath(domain)
+    for element in html.xpath(xpath):
         yield parse_item(element)
+
+
+def get_xpath(domain: str):
+    config = get_config()
+    if domain not in config:
+        assert "default" in config, f"No config for {domain}"
+        return config["default"]["xpath"]
+    return config[domain]["xpath"]
 
 
 def parse_item(element: Element) -> PageItem:

@@ -10,8 +10,7 @@ from mini_readability.minify import save_mini_readable
 
 def main() -> None:
     logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s:%(processName)s[%(process)d]:%(name)s:%(levelname)s %(message)s",
+        level=logging.INFO, format="%(asctime)s:%(name)s:%(levelname)s %(message)s"
     )
     args = parse_arguments()
     save_mini_readable(args.url)

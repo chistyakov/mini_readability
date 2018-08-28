@@ -46,12 +46,10 @@ from mini_readability.page import Page, Paragraph, Header, Link, LineBreak
             ),
             "Title\n\nHeader\n\nStart link [http://example.com] end.\n\n",
         ),
-
         (
             Page(title="Title", items=[Paragraph(parts=["Foo", LineBreak(), "Bar"])]),
             "Title\n\nFoo\nBar\n\n",
         ),
-
         (
             Page(
                 title="БЫТИЕ",
@@ -69,7 +67,6 @@ from mini_readability.page import Page, Paragraph, Header, Link, LineBreak
             "2 Земля же была безвидна и пуста, и тьма над бездною, и Дух Божий носился над\n"
             "водою.\n\n",
         ),
-
         (
             Page(
                 title="БЫТИЕ",
@@ -78,8 +75,11 @@ from mini_readability.page import Page, Paragraph, Header, Link, LineBreak
                     Paragraph(
                         parts=[
                             "2 ",
-                            Link(text="Земля", href="https://mir24.tv/articles/16290778/zemlya-bez-kursa-ili-k-chemu-privedet-smena-magnitnyh-polyusov"),
-                            " же была безвидна и пуста, и тьма над бездною, и Дух Божий носился над водою."
+                            Link(
+                                text="Земля",
+                                href="https://mir24.tv/articles/16290778/zemlya-bez-kursa-ili-k-chemu-privedet-smena-magnitnyh-polyusov",
+                            ),
+                            " же была безвидна и пуста, и тьма над бездною, и Дух Божий носился над водою.",
                         ]
                     ),
                 ],

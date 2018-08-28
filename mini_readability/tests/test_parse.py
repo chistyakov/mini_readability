@@ -1,3 +1,6 @@
+from types import MappingProxyType
+from unittest import mock
+
 import pytest
 
 from mini_readability.page import Page, Paragraph, Header, Link, LineBreak
@@ -117,7 +120,13 @@ from mini_readability.parse import parse
         ),
     ],
 )
-def test_extract_text(page_source, expected_page):
-    parsed_page = parse(page_source)
+@mock.patch(
+    "mini_readability.parse.get_config",
+    return_value=MappingProxyType(
+        {"default": {"xpath": ".//*[self::p or self::h1 or self::h2 or self::h3]"}}
+    ),
+)
+def test_parse(mock_config, page_source, expected_page):
+    parsed_page = parse(page_source, "default")
 
     assert expected_page == parsed_page
