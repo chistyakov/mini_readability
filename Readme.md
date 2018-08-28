@@ -83,6 +83,7 @@ make tests
 
 docker build . -t mini_readability
 docker run --rm --name mini_readability -u $$(id -u) --entrypoint "python" mini_readability -m pytest ../tests/ -vv```
+```
 
 ### 5
 > Желательно указать направление дальнейшего улучшения/развития программы.
