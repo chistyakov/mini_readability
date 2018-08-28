@@ -82,7 +82,7 @@ make tests
 # или:
 
 docker build . -t mini_readability
-docker run --rm --name mini_readability -u $$(id -u) --entrypoint "python" mini_readability -m pytest ../tests/ -vv```
+docker run --rm --name mini_readability --entrypoint "python" mini_readability -m pytest ../tests/ -vv
 ```
 
 ### 5
